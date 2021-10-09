@@ -1,0 +1,154 @@
+package org.seleniumproject.com;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class MyStoreProject2 {
+	public static void main(String[] args) throws Throwable {
+		System.setProperty("webdriver.chrome.driver", 
+				"/home/raghu/eclipse-workspace/Java_Selenium/Driver/chromedriver");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("Sudharsanveluchamy123456789@gmail.com");
+		driver.findElement(By.xpath("//input[@id='passwd']")).sendKeys("123456789");
+		driver.findElement(By.xpath("//button[@id='SubmitLogin']")).click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.findElement(By.xpath("(//a[text()='Dresses'])[2]")).click();
+		Actions move = new Actions(driver);
+		WebElement img = driver.findElement(By.xpath("(//img[@title='Printed Dress'])[1]"));
+		move.moveToElement(img).perform();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement quick = driver.findElement(By.xpath("(//a[@class='quick-view'])[1]"));		
+		wait.until(ExpectedConditions.visibilityOf(quick));
+		move.click(quick).perform();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.switchTo().frame(0);
+		WebElement plus = driver.findElement(By.xpath("//i[@class='icon-plus']"));
+	    for(int i=1;i<10;i++) {
+	    	plus.click();
+	    }
+	    WebElement size = driver.findElement(By.id("group_1"));
+	    Select se = new Select(size);
+	    se.selectByValue("2");
+	    driver.findElement(By.xpath("//a[@title='Orange']")).click();
+	    driver.findElement(By.xpath("//button[@class='exclusive']")).click();
+	    Thread.sleep(3000);
+	    driver.switchTo().defaultContent();
+	    TakesScreenshot ts = (TakesScreenshot) driver;
+	    File src = ts.getScreenshotAs(OutputType.FILE);
+	    File dest = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/sample2.png");
+	    FileUtils.copyFile(src, dest);
+	    driver.findElement(By.xpath("(//a[@rel='nofollow'])[6]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    driver.findElement(By.xpath("//a[@class='button btn btn-default standard-checkout button-medium']")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    WebElement addresstext = driver.findElement(By.xpath("//h1[normalize-space()='Addresses']"));
+	    js.executeScript("arguments[0].scrollIntoView(true);", addresstext);
+        wait.until(ExpectedConditions.visibilityOf(addresstext));
+	    File src1 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest1 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/Addresspage.png");
+	    FileUtils.copyFile(src1, dest1);
+	    driver.findElement(By.xpath("//textarea[@name='message']")).sendKeys("Nothing is to Write");
+	    driver.findElement(By.xpath("//button[@name='processAddress']")).click();
+	    WebElement checkbox = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div[1]/p[2]/div[1]/span[1]/input[1]"));
+//	    wait.until(ExpectedConditions.visibilityOf(checkbox));
+	    checkbox.click();
+	    WebElement shopingtext = driver.findElement(By.xpath("//h1[contains(text(),'Shipping')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);", shopingtext);
+	    File src2 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest2 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/Shoppingshap.png");
+	    FileUtils.copyFile(src2, dest2);
+	    driver.findElement(By.xpath("//button[@name='processCarrier']")).click();
+	    WebElement paymenttext = driver.findElement(By.xpath("//h1[contains(text(),'Please choose your payment method')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);",paymenttext);
+	    File src3 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest3 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/PaymentCheckshap.png");
+	    FileUtils.copyFile(src3, dest3);
+	    driver.findElement(By.xpath("//a[@title='Pay by bank wire']")).click();
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/form[1]/p[1]/button[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    WebElement ordertext = driver.findElement(By.xpath("//h1[contains(text(),'Order confirmation')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);",ordertext);
+	    File src4 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest4 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/PaymentConformationshap.png");
+	    FileUtils.copyFile(src4, dest4);
+	    driver.findElement(By.xpath("/html/body/div/div[1]/header/div[3]/div/div/div[1]/a/img")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    driver.findElement(By.xpath("(//a[@title='T-shirts'])[2]")).click();
+	    WebElement img1 = driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[2]/ul[1]/li[1]/div[1]/div[1]/div[1]/a[1]/img[1]"));
+	    move.moveToElement(img1).perform();
+	    WebElement Qickview2 = driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[2]/ul[1]/li[1]/div[1]/div[1]/div[1]/a[2]"));
+	    wait.until(ExpectedConditions.visibilityOf(Qickview2));
+	    move.click(Qickview2).perform();
+	    driver.switchTo().frame(0);
+	    WebElement plus2 = driver.findElement(By.xpath("//body/div[1]/div[1]/div[3]/form[1]/div[1]/div[2]/p[1]/a[2]"));
+	    for(int j=1;j<10;j++) {
+	    	plus2.click();
+	    }
+	    WebElement size2 = driver.findElement(By.xpath("//select[@id='group_1']"));
+	    Select se2 = new Select(size2);
+	    se2.selectByValue("2");
+	    driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[3]/form[1]/div[1]/div[2]/div[1]/fieldset[2]/div[1]/ul[1]/li[2]/a[1]")).click();
+	    driver.findElement(By.xpath("//body/div[1]/div[1]/div[3]/form[1]/div[1]/div[3]/div[1]/p[1]/button[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    File src5 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest5 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/AddToCart.png");
+	    FileUtils.copyFile(src5, dest5);
+	    driver.switchTo().defaultContent();
+	    driver.findElement(By.xpath("//header/div[3]/div[1]/div[1]/div[4]/div[1]/div[2]/div[4]/a[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    driver.findElement(By.xpath("(//a[@title='Delete'])[1]"));
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/p[2]/a[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    WebElement addresstext1 = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/h1[1]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);", addresstext1);
+        wait.until(ExpectedConditions.visibilityOf(addresstext1));
+	    File src6 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest6 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/Addresspage2.png");
+	    FileUtils.copyFile(src6, dest6);
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/form[1]/div[1]/div[3]/textarea[1]")).sendKeys("Nothing to say with you");
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/form[1]/p[1]/button[1]")).click();
+	    WebElement checkbox1 = driver.findElement(By.xpath("//input[@id='cgv']"));
+	    checkbox1.click();
+	    WebElement shopingtext1 = driver.findElement(By.xpath("//h1[contains(text(),'Shipping')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);", shopingtext1);
+	    File src7 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest7 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/Shoppingshap2.png");
+	    FileUtils.copyFile(src7, dest7);
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/p[1]/button[1]")).click();
+	    WebElement paymenttext1 = driver.findElement(By.xpath("//h1[contains(text(),'Please choose your payment method')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);",paymenttext1);
+	    File src8 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest8 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/PaymentCheckshap2.png");
+	    FileUtils.copyFile(src8, dest8);
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/div[1]/div[3]/div[1]/div[1]/p[1]/a[1]")).click();
+	    driver.findElement(By.xpath("//body/div[@id='page']/div[2]/div[1]/div[3]/div[1]/form[1]/p[1]/button[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    WebElement ordertext1 = driver.findElement(By.xpath("//h1[contains(text(),'Order confirmation')]"));
+	    js.executeScript("arguments[0].scrollIntoView(true);",ordertext1);
+	    File src9 = ts.getScreenshotAs(OutputType.FILE);
+	    File dest9 = new File("/home/raghu/eclipse-workspace/Java_Selenium/ScreenShots/PaymentConformationshap2.png");
+	    FileUtils.copyFile(src9, dest9);
+	    driver.findElement(By.xpath("//header/div[3]/div[1]/div[1]/div[1]/a[1]/img[1]")).click();
+	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	   
+	}
+
+}
